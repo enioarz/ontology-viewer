@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ontology-viewer"
+version = "0.1.0"
+description = "Generate browsable HTML documentation for OWL ontologies"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["py-horned-owl>=1.4.1,<2", "Jinja2>=3.1.6,<4"]
+
+[project.scripts]
+ontology-viewer = "ontology_viewer.cli:main"
+
+[tool.setuptools.package-data]
+ontology_viewer = ["templates/*.html", "themes/*.css"]
