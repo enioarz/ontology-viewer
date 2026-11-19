@@ -23,7 +23,10 @@ python -m http.server --directory _site 8000
 The index links to a standalone page in `entities/` for each distinct declared
 entity IRI. When served over HTTP, htmx follows those same links, swaps the page's
 main content, and updates the browser URL. Direct links and normal browser
-navigation work without JavaScript. The pinned htmx 2.0.10 script and its license
+navigation work without JavaScript. As each entity comes into view on the index,
+htmx loads the entity page and extracts its IRI, definitions, and asserted
+`SubClassOf` relations beneath the linked label. The label and IRI are available
+before the summary loads. The pinned htmx 2.0.10 script and its license
 ship with the site, so it can run without a CDN.
 
 The generator supports RDF/XML, OWL/XML, and OWL Functional Syntax. Use

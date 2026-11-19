@@ -33,7 +33,18 @@
     <h2>{{ group.title }}</h2>
     <ul class="entity-index">
       {% for entity in group.entities %}
-      <li><a id="{{ entity.anchor }}-{{ group.id }}" href="{{ entity_base_url }}{{ entity.anchor }}.html"><bdi>{{ entity.label }}</bdi></a></li>
+      {% set entity_url = entity_base_url ~ entity.anchor ~ ".html" %}
+      <li class="entity-preview">
+        <h3><a id="{{ entity.anchor }}-{{ group.id }}" href="{{ entity_url }}"><bdi>{{ entity.label }}</bdi></a></h3>
+        <div class="entity-summary"
+             hx-get="{{ entity_url }}"
+             hx-trigger="intersect once"
+             hx-target="this"
+             hx-select=".entity-iri, [data-annotation-role='definition'], [data-axiom-type='SubClassOf']"
+             hx-swap="innerHTML ignoreTitle:true">
+          <p class="iri"><code>{{ entity.iri }}</code></p>
+        </div>
+      </li>
       {% endfor %}
     </ul>
   </section>

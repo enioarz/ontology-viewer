@@ -8,7 +8,7 @@
 <article class="entity" id="{{ entity.anchor }}">
   <header>
     <h1><bdi>{{ entity.label }}</bdi></h1>
-    <p class="iri"><code>{{ entity.iri }}</code></p>
+    <p class="iri entity-iri"><code>{{ entity.iri }}</code></p>
   </header>
 
   {% for role, heading, items in sections %}
@@ -30,7 +30,7 @@
   <section class="axioms">
     <h2>Axioms</h2>
     {% for kind, items in entity.axioms %}
-    <details class="axiom-group"{% if kind != "AnnotationAssertion" %} open{% endif %}>
+    <details class="axiom-group" data-axiom-type="{{ kind }}"{% if kind != "AnnotationAssertion" %} open{% endif %}>
       <summary>{{ kind }} ({{ items | length }})</summary>
       <ul>{% for axiom in items %}<li><code>{{ axiom }}</code></li>{% endfor %}</ul>
     </details>

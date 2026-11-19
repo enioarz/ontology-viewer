@@ -20,14 +20,19 @@ body {
   margin-block-end: 2rem;
 }
 
-.entity-navigation ul,
-.entity-index {
+.entity-navigation ul {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem 1.25rem;
 }
 
-.entity {
+.entity-index {
+  list-style: none;
+  padding-inline-start: 0;
+}
+
+.entity,
+.entity-preview {
   border-block-start: 1px solid GrayText;
   padding-block: 0.5rem 1rem;
 }
@@ -42,11 +47,11 @@ body {
   white-space: pre-line;
 }
 
-.axioms summary {
+.axiom-group summary {
   cursor: pointer;
 }
 
-.axioms li {
+.axiom-group li {
   margin-block: 0.35rem;
 }
 

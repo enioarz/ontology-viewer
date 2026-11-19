@@ -12,7 +12,7 @@
     {% block content %}{% endblock %}
   </main>
   <script>
-    if (location.protocol === "file:") document.body.removeAttribute("hx-boost");
+    if (location.protocol === "file:") document.body.setAttribute("hx-disable", "");
   </script>
 </body>
 </html>
