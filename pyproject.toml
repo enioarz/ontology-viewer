@@ -16,4 +16,4 @@ dependencies = ["py-horned-owl>=1.4.1,<2", "Jinja2>=3.1.6,<4"]
 ontology-viewer = "ontology_viewer.cli:main"
 
 [tool.setuptools.package-data]
-ontology_viewer = ["templates/*.html", "themes/*.css"]
+ontology_viewer = ["templates/*.html", "themes/*.css", "vendor/htmx.min.js", "vendor/LICENSE"]

@@ -1,26 +1,7 @@
-{% macro annotations(items) -%}
-{% if items %}
-<dl class="annotations">
-  {% for item in items %}
-  <dt class="annotation-property" title="{{ item.property_iri }}">{{ item.property_iri | display_name }}</dt>
-  <dd class="annotation-value"{% if item.language %} lang="{{ item.language }}"{% endif %}>
-    {{ item.value }}{% if item.language %} <small>({{ item.language }})</small>{% endif %}
-    {% if item.datatype %}<small title="{{ item.datatype }}">({{ item.datatype | display_name }})</small>{% endif %}
-  </dd>
-  {% endfor %}
-</dl>
-{% endif %}
-{%- endmacro %}
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ document.title }}</title>
-  <link rel="stylesheet" href="{{ stylesheet_url }}">
-</head>
-<body>
-<main class="ontology">
+{% extends "base.html" %}
+{% from "annotations.html" import annotations %}
+{% block title %}{{ document.title }}{% endblock %}
+{% block content %}
   <header class="ontology-header">
     <h1>{{ document.title }}</h1>
     {% if document.iri %}<p class="iri"><code>{{ document.iri }}</code></p>{% endif %}
@@ -52,26 +33,9 @@
     <h2>{{ group.title }}</h2>
     <ul class="entity-index">
       {% for entity in group.entities %}
-      <li><a href="#{{ entity.anchor }}"><bdi>{{ entity.label }}</bdi></a></li>
+      <li><a id="{{ entity.anchor }}-{{ group.id }}" href="{{ entity_base_url }}{{ entity.anchor }}.html"><bdi>{{ entity.label }}</bdi></a></li>
       {% endfor %}
     </ul>
-    {% for entity in group.entities %}
-    {% if entity_groups[entity.iri] == group.id %}
-    <article class="entity" id="{{ entity.anchor }}">
-      <h3><bdi>{{ entity.label }}</bdi></h3>
-      <p class="iri"><code>{{ entity.iri }}</code></p>
-      {{ annotations(entity.annotations) }}
-      {% if entity.axioms %}
-      <details class="axioms">
-        <summary>Axioms mentioning this entity ({{ entity.axioms | length }})</summary>
-        <ul>{% for axiom in entity.axioms %}<li><code>{{ axiom }}</code></li>{% endfor %}</ul>
-      </details>
-      {% endif %}
-    </article>
-    {% endif %}
-    {% endfor %}
   </section>
   {% endfor %}
-</main>
-</body>
-</html>
+{% endblock %}

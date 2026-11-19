@@ -1,11 +1,12 @@
 from collections import defaultdict
+from collections.abc import Mapping
 from dataclasses import dataclass
 from hashlib import sha256
 from pathlib import Path
 
 from pyhornedowl import model, open_ontology_from_file
 
-LABEL = "http://www.w3.org/2000/01/rdf-schema#label"
+from .annotation_roles import DEFAULT_PROPERTIES, LABEL
 TITLE_PROPERTIES = (
     "http://purl.org/dc/terms/title",
     "http://purl.org/dc/elements/1.1/title",
@@ -40,7 +41,7 @@ class Entity:
     iri: str
     label: str
     annotations: tuple[Annotation, ...]
-    axioms: tuple[str, ...]
+    axioms: tuple[tuple[str, tuple[str, ...]], ...]
 
     @property
     def anchor(self) -> str:
@@ -87,7 +88,12 @@ def preferred_label(annotations, properties, fallback):
     return fallback
 
 
-def load_ontology(path: Path, serialization: str | None = None) -> OntologyDocument:
+def load_ontology(
+    path: Path,
+    serialization: str | None = None,
+    *,
+    annotation_properties: Mapping[str, tuple[str, ...]] = DEFAULT_PROPERTIES,
+) -> OntologyDocument:
     ontology = open_ontology_from_file(str(path), serialization)
     ontology_annotations = []
     entity_annotations = defaultdict(list)
@@ -112,17 +118,18 @@ def load_ontology(path: Path, serialization: str | None = None) -> OntologyDocum
     entities = {}
     for iri in set().union(*(iris for _, _, iris in categories)):
         annotations = tuple(sorted(entity_annotations[iri]))
-        axioms = ontology.get_axioms_for_iri((iri, True))
+        axioms = defaultdict(list)
+        for axiom in ontology.get_axioms_for_iri((iri, True)):
+            axioms[type(axiom.component).__name__].append(str(axiom))
         entities[iri] = Entity(
             iri,
-            preferred_label(annotations, (LABEL,), display_name(iri)),
+            preferred_label(
+                annotations,
+                annotation_properties["prefLabel"] + annotation_properties["label"],
+                display_name(iri),
+            ),
             annotations,
-            tuple(sorted(
-                str(axiom) for axiom in axioms
-                if not isinstance(axiom.component, model.AnnotationAssertion)
-                or str(axiom.component.subject) != iri
-                or axiom.ann
-            )),
+            tuple((kind, tuple(sorted(items))) for kind, items in sorted(axioms.items())),
         )
 
     groups = tuple(

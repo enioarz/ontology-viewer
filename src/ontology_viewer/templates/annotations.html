@@ -1,0 +1,16 @@
+{% macro value(item) -%}
+<span class="annotation-value" title="{{ item.property_iri }}"{% if item.language %} lang="{{ item.language }}"{% endif %}>{{ item.value }}</span>
+{% if item.language %}<small>({{ item.language }})</small>{% endif %}
+{% if item.datatype %}<small title="{{ item.datatype }}">({{ item.datatype | display_name }})</small>{% endif %}
+{%- endmacro %}
+
+{% macro annotations(items) -%}
+{% if items %}
+<dl class="annotations">
+  {% for item in items %}
+  <dt class="annotation-property" title="{{ item.property_iri }}">{{ item.property_iri | display_name }}</dt>
+  <dd>{{ value(item) }}</dd>
+  {% endfor %}
+</dl>
+{% endif %}
+{%- endmacro %}

@@ -49,3 +49,11 @@ body {
 .axioms li {
   margin-block: 0.35rem;
 }
+
+.annotation-value {
+  white-space: pre-line;
+}
+
+.axiom-group {
+  margin-block: 0.75rem;
+}

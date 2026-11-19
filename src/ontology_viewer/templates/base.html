@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="{{ stylesheet_url }}">
+  <script src="{{ script_url }}" defer></script>
+</head>
+<body hx-boost="true" hx-target="#content" hx-select="#content" hx-swap="outerHTML show:window:top">
+  <main class="ontology" id="content">
+    {% block content %}{% endblock %}
+  </main>
+  <script>
+    if (location.protocol === "file:") document.body.removeAttribute("hx-boost");
+  </script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% from "annotations.html" import annotations, value %}
+{% block title %}{{ entity.label }} | {{ ontology_title }}{% endblock %}
+{% block content %}
+<nav class="entity-navigation" aria-label="Ontology">
+  <a href="{{ index_url }}">{{ ontology_title }}</a>
+</nav>
+<article class="entity" id="{{ entity.anchor }}">
+  <header>
+    <h1><bdi>{{ entity.label }}</bdi></h1>
+    <p class="iri"><code>{{ entity.iri }}</code></p>
+  </header>
+
+  {% for role, heading, items in sections %}
+  {% if items %}
+  <section class="annotation-section" data-annotation-role="{{ role }}">
+    <h2>{{ heading }}</h2>
+    <ul class="annotations">{% for item in items %}<li>{{ value(item) }}</li>{% endfor %}</ul>
+  </section>
+  {% endif %}
+  {% endfor %}
+
+  {% if other_annotations %}
+  <section class="annotation-section">
+    <h2>Other annotations</h2>
+    {{ annotations(other_annotations) }}
+  </section>
+  {% endif %}
+
+  <section class="axioms">
+    <h2>Axioms</h2>
+    {% for kind, items in entity.axioms %}
+    <details class="axiom-group"{% if kind != "AnnotationAssertion" %} open{% endif %}>
+      <summary>{{ kind }} ({{ items | length }})</summary>
+      <ul>{% for axiom in items %}<li><code>{{ axiom }}</code></li>{% endfor %}</ul>
+    </details>
+    {% else %}
+    <p>No asserted axioms found.</p>
+    {% endfor %}
+  </section>
+</article>
+{% endblock %}

@@ -1,0 +1,18 @@
+{
+  "definition": [
+    "http://www.w3.org/2004/02/skos/core#definition",
+    "http://purl.obolibrary.org/obo/IAO_0000115"
+  ],
+  "prefLabel": [
+    "http://www.w3.org/2004/02/skos/core#prefLabel",
+    "http://purl.obolibrary.org/obo/IAO_0000111"
+  ],
+  "altLabel": [
+    "http://www.w3.org/2004/02/skos/core#altLabel",
+    "http://purl.obolibrary.org/obo/IAO_0000118"
+  ],
+  "example": [
+    "http://www.w3.org/2004/02/skos/core#example",
+    "http://purl.obolibrary.org/obo/IAO_0000112"
+  ]
+}
